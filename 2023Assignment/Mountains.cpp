@@ -12,6 +12,7 @@
 
 
 int main() {
+    //Reads mountains list
     Mountains mountains("mountains.csv");
 
     int numQuestions = 0;
@@ -26,6 +27,7 @@ int main() {
     std::cout << "Welcome, " << playerName << ", to the Mountain Range Quiz! Type 'exit' or 'quit' to end the quiz. NB: Answers first letters should be capitalized and spaces replaced with underscore" << std::endl;
     while (true) {
         // Quiz logic goes here...
+        //get random mountain
         std::string mountainName = mountains.getRandomMountain();
 
         std::cout << "Which mountain range is " << mountainName << " in?" << std::endl;
@@ -38,6 +40,7 @@ int main() {
         auto end = std::chrono::steady_clock::now(); // end timer
         auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end - start).count(); // calculate elapsed time in seconds
 
+        //stop quiz if exit or quit is inputted
         if (answer == "exit" || answer == "quit") {
             break;
         }
@@ -83,7 +86,7 @@ int main() {
         }
         avgCorrectTime = totalCorrectTime / numCorrect;
     }
-
+    //writes player result in the csv file
     writePlayerScoreToCSV(playerName, numCorrect, numQuestions, avgCorrectTime);
     
     //Read players details from csv file and output in order of performance

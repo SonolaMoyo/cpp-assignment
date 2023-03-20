@@ -72,6 +72,8 @@ private:
     std::vector<Mountain> m_mountains;
 };
 
+// writes players information to a CSV 'player_score.csv
+// time complexity of the function is O(1)'
 void writePlayerScoreToCSV(const std::string& playerName, int numCorrect, int numQuestions, double avgCorrectTime) {
     std::ofstream scoreFile;
     scoreFile.open("player_score.csv", std::ios::app);
@@ -98,6 +100,8 @@ struct PlayerScore {
     double avgTime;
 };
 
+//returns the playerScores vector containing all the player scores read from the CSV file.
+// the time complexity of the function is linear time O(n), where n is the number of lines in the CSV file.
 std::vector<PlayerScore> readPlayerScoresFromCSV(const std::string& filename) {
     std::vector<PlayerScore> playerScores;
 
@@ -123,7 +127,8 @@ std::vector<PlayerScore> readPlayerScoresFromCSV(const std::string& filename) {
     return playerScores;
 }
 
-
+//Compares player score according to GPA and returns boolean
+//the time complexity is O(1)
 bool comparePlayerScores(const PlayerScore& a, const PlayerScore& b) {
     int aGPA = 5;
     if (a.avgTime > 5.0 && a.avgTime <= 9.0) {
