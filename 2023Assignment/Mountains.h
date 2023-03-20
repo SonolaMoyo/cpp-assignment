@@ -90,3 +90,53 @@ void writePlayerScoreToCSV(const std::string& playerName, int numCorrect, int nu
     scoreFile.close();
 }
 
+//data structure and functions for outputing all players performance
+struct PlayerScore {
+    std::string name;
+    int correctAnswers;
+    int totalQuestions;
+    double avgTime;
+};
+
+std::vector<PlayerScore> readPlayerScoresFromCSV(const std::string& filename) {
+    std::vector<PlayerScore> playerScores;
+
+    std::ifstream file(filename);
+    if (file) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::istringstream iss(line);
+            std::string name;
+            int correctAnswers, totalQuestions;
+            double avgTime;
+            if (std::getline(iss, name, ',') &&
+                iss >> correctAnswers &&
+                iss.ignore() &&
+                iss >> totalQuestions &&
+                iss.ignore() &&
+                iss >> avgTime) {
+                playerScores.push_back({ name, correctAnswers, totalQuestions, avgTime });
+            }
+        }
+    }
+
+    return playerScores;
+}
+
+
+bool comparePlayerScores(const PlayerScore& a, const PlayerScore& b) {
+    int aGPA = 5;
+    if (a.avgTime > 5.0 && a.avgTime <= 9.0) {
+        aGPA = 4;
+    }
+
+    int bGPA = 5;
+    if (b.avgTime > 5.0 && b.avgTime <= 9.0) {
+        bGPA = 4;
+    }
+
+    double aOverallGPA = (double)a.correctAnswers / (double)a.totalQuestions * (double)aGPA;
+    double bOverallGPA = (double)b.correctAnswers / (double)b.totalQuestions * (double)bGPA;
+
+    return aOverallGPA > bOverallGPA;
+}

@@ -25,6 +25,7 @@ int main() {
 
     std::cout << "Welcome, " << playerName << ", to the Mountain Range Quiz! Type 'exit' or 'quit' to end the quiz. NB: Answers first letters should be capitalized and spaces replaced with underscore" << std::endl;
     while (true) {
+        // Quiz logic goes here...
         std::string mountainName = mountains.getRandomMountain();
 
         std::cout << "Which mountain range is " << mountainName << " in?" << std::endl;
@@ -61,6 +62,7 @@ int main() {
 
     std::cout << playerName << ", you scored " << numCorrect << " out of " << numQuestions << " questions." << std::endl;
 
+    // Write player score to CSV file...
     // sort the vector of correctly answered questions based on the time taken
     std::sort(correctAnswers.begin(), correctAnswers.end(),
         [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
@@ -83,7 +85,22 @@ int main() {
     }
 
     writePlayerScoreToCSV(playerName, numCorrect, numQuestions, avgCorrectTime);
+    
+    //Read players details from csv file and output in order of performance
+    std::vector<PlayerScore> playerScores = readPlayerScoresFromCSV("player_score.csv");
+    std::sort(playerScores.begin(), playerScores.end(), comparePlayerScores);
+
+    std::cout << "Players in order of overall performance:" << std::endl;
+    for (const auto& playerScore : playerScores) {
+        int gpa = 5;
+        if (playerScore.avgTime > 5.0 && playerScore.avgTime <= 9.0) {
+            gpa = 4;
+        }
+
+        double overallGPA = (double)playerScore.correctAnswers / (double)playerScore.totalQuestions * (double)gpa;
+
+        std::cout << playerScore.name << " (" << overallGPA << ")" << std::endl;
+    }
 
     return 0;
 }
-
