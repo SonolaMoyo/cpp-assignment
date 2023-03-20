@@ -73,6 +73,17 @@ int main() {
         std::cout << qa.first << " (" << qa.second << " seconds)" << std::endl;
     }
 
+    double avgCorrectTime = 0.0;
+    if (numCorrect > 0) {
+        double totalCorrectTime = 0.0;
+        for (const auto& qa : correctAnswers) {
+            totalCorrectTime += qa.second;
+        }
+        avgCorrectTime = totalCorrectTime / numCorrect;
+    }
+
+    writePlayerScoreToCSV(playerName, numCorrect, numQuestions, avgCorrectTime);
+
     return 0;
 }
 

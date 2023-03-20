@@ -71,3 +71,22 @@ public:
 private:
     std::vector<Mountain> m_mountains;
 };
+
+void writePlayerScoreToCSV(const std::string& playerName, int numCorrect, int numQuestions, double avgCorrectTime) {
+    std::ofstream scoreFile;
+    scoreFile.open("player_score.csv", std::ios::app);
+
+    if (!scoreFile.is_open()) {
+        std::cout << "Failed to open score file" << std::endl;
+        return;
+    }
+
+    // create a CSV row with player details
+    std::stringstream scoreRow;
+    scoreRow << playerName << "," << numCorrect << "," << numQuestions << "," << avgCorrectTime << std::endl;
+
+    // write the row to the CSV file
+    scoreFile << scoreRow.str();
+    scoreFile.close();
+}
+
